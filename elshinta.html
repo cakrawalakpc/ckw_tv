@@ -1,43 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>hls.js</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            .hlsjs {
-                position: relative;
-                width: 70%;
-            }
-            .ratio {
-                position: absolute;
-                padding-top: 75%;
-            }
-            video {
-                background-color: #ccc;
-                width: 100%;
-            }
-        </style>
-        <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
-        <script>
-            window.onload = function() {
-                if (Hls.isSupported()) {
-                    var video1 = document.getElementById("video1");
-                    hls1 = new Hls({
-                        debug : true
-                    }), hls1.on(Hls.Events.MEDIA_ATTACHED, function() {
-                        hls1.loadSource("http://210.210.155.35/qwr9ew/s/s10/02.m3u8");
-                    });
-                    hls1.attachMedia(video1);
-                }
-            };
-        </script>
-    </head>
-    <body>
-        
-        <div class="hlsjs">
-            <video id="video1" autoplay="true" controls="true"></video>
-            <div class="ratio"></div>
-        </div>
-    </body>
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <video id="video" controls></video>
+    <script>
+    if(Hls.isSupported())
+    {
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource('http://210.210.155.35/qwr9ew/s/s10/02.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function()
+        {
+            video.play();
+        });
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl'))
+    {
+        video.src = 'http://210.210.155.35/qwr9ew/s/s10/02.m3u8';
+        video.addEventListener('canplay',function()
+        {
+            video.play();
+        });
+    }
+    </script>
+  </body>
 </html>
